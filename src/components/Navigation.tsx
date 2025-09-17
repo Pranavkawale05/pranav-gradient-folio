@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { personalInfo } from "@/data/personalInfo";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,7 +52,7 @@ const Navigation = () => {
             onClick={() => scrollToSection('home')}
             className="text-2xl font-bold text-gradient hover:opacity-80 transition-opacity"
           >
-            PK
+            {personalInfo.name.split(' ').map(name => name[0]).join('')}
           </button>
 
           {/* Desktop Navigation */}

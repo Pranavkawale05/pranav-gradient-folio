@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { ArrowDown, Mail, Github, Linkedin, Phone } from "lucide-react";
-import profileImage from "@/assets/pranav-profile.jpg";
+import { ArrowDown } from "lucide-react";
+import { personalInfo } from "@/data/personalInfo";
+import { socialLinks } from "@/data/contact";
 
 const Hero = () => {
   const scrollToSection = (sectionId: string) => {
@@ -20,31 +21,17 @@ const Hero = () => {
 
       <div className="container mx-auto px-6 text-center relative z-10">
         <div className="animate-fade-in">
-          {/* Profile Image */}
-          <div className="mb-8 flex justify-center">
-            <div className="relative">
-              <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-white/20 shadow-glow">
-                <img 
-                  src={profileImage} 
-                  alt="Pranav Kawale" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="absolute inset-0 rounded-full bg-gradient-accent opacity-20"></div>
-            </div>
-          </div>
-
           {/* Name and Title */}
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-4">
-            Pranav <span className="text-gradient">Kawale</span>
+          <h1 className="text-6xl md:text-8xl font-bold text-white mb-6">
+            {personalInfo.name.split(' ')[0]} <span className="text-gradient">{personalInfo.name.split(' ')[1]}</span>
           </h1>
           
-          <h2 className="text-2xl md:text-3xl text-white/90 font-medium mb-6">
-            Aspiring Software Engineer
+          <h2 className="text-3xl md:text-4xl text-white/90 font-medium mb-8">
+            {personalInfo.title}
           </h2>
           
-          <p className="text-xl md:text-2xl text-white/80 max-w-3xl mx-auto mb-12 leading-relaxed">
-            Passionate about building innovative, efficient, and user-focused solutions
+          <p className="text-xl md:text-2xl text-white/80 max-w-4xl mx-auto mb-16 leading-relaxed">
+            {personalInfo.tagline}
           </p>
 
           {/* CTA Buttons */}
@@ -63,41 +50,24 @@ const Hero = () => {
               className="bg-transparent hover:bg-white/10 text-white border-white/30 hover:border-white/50 backdrop-blur-sm text-lg px-8 py-6 hover-lift"
               onClick={() => scrollToSection('contact')}
             >
-              <Mail className="w-5 h-5 mr-2" />
               Contact Me
             </Button>
           </div>
 
           {/* Social Links */}
           <div className="flex justify-center gap-6 mb-16">
-            <a 
-              href="mailto:Pranavlkawale1@gmail.com"
-              className="p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all duration-300 hover-lift"
-            >
-              <Mail className="w-6 h-6" />
-            </a>
-            <a 
-              href="https://www.linkedin.com/in/pranav-kawale-aa4a622b8"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all duration-300 hover-lift"
-            >
-              <Linkedin className="w-6 h-6" />
-            </a>
-            <a 
-              href="https://github.com/Pranavkawale05"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all duration-300 hover-lift"
-            >
-              <Github className="w-6 h-6" />
-            </a>
-            <a 
-              href="tel:7022018900"
-              className="p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all duration-300 hover-lift"
-            >
-              <Phone className="w-6 h-6" />
-            </a>
+            {socialLinks.map((social) => (
+              <a 
+                key={social.id}
+                href={social.href}
+                target={social.href.startsWith('http') ? '_blank' : undefined}
+                rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                className="p-4 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all duration-300 hover-lift group"
+                aria-label={social.label}
+              >
+                <social.icon className="w-6 h-6 group-hover:scale-110 transition-transform" />
+              </a>
+            ))}
           </div>
         </div>
 

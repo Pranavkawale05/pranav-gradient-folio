@@ -3,9 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Mail, Phone, Linkedin, Github, MapPin, Send } from "lucide-react";
+import { Mail, Phone, Send } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { contactInfo } from "@/data/contact";
+import ContactInfoCard from "@/components/ui/ContactInfoCard";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -14,44 +16,6 @@ const Contact = () => {
     message: ''
   });
   const { toast } = useToast();
-
-  const contactInfo = [
-    {
-      icon: Mail,
-      label: "Email",
-      value: "Pranavlkawale1@gmail.com",
-      href: "mailto:Pranavlkawale1@gmail.com",
-      color: "text-red-500"
-    },
-    {
-      icon: Phone,
-      label: "Phone",
-      value: "+91 7022018900",
-      href: "tel:7022018900",
-      color: "text-green-500"
-    },
-    {
-      icon: Linkedin,
-      label: "LinkedIn",
-      value: "pranav-kawale-aa4a622b8",
-      href: "https://www.linkedin.com/in/pranav-kawale-aa4a622b8",
-      color: "text-blue-500"
-    },
-    {
-      icon: Github,
-      label: "GitHub",
-      value: "Pranavkawale05",
-      href: "https://github.com/Pranavkawale05",
-      color: "text-purple-500"
-    },
-    {
-      icon: MapPin,
-      label: "Location",
-      value: "Bangalore, India",
-      href: null,
-      color: "text-orange-500"
-    }
-  ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -99,35 +63,7 @@ const Contact = () => {
               <h3 className="text-2xl font-semibold mb-6">Contact Information</h3>
               <div className="space-y-4">
                 {contactInfo.map((info, index) => (
-                  <Card 
-                    key={index} 
-                    className="bg-gradient-card border-0 shadow-lg hover-lift transition-all duration-300"
-                  >
-                    <CardContent className="p-6">
-                      <div className="flex items-center space-x-4">
-                        <div className={`p-3 rounded-lg bg-gradient-accent ${info.color}`}>
-                          <info.icon className="w-6 h-6 text-white" />
-                        </div>
-                        <div className="flex-grow">
-                          <h4 className="font-medium text-sm text-muted-foreground uppercase tracking-wide">
-                            {info.label}
-                          </h4>
-                          {info.href ? (
-                            <a 
-                              href={info.href}
-                              target={info.href.startsWith('http') ? '_blank' : undefined}
-                              rel={info.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                              className="text-lg font-semibold hover:text-primary transition-colors"
-                            >
-                              {info.value}
-                            </a>
-                          ) : (
-                            <p className="text-lg font-semibold">{info.value}</p>
-                          )}
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+                  <ContactInfoCard key={info.id} info={info} index={index} />
                 ))}
               </div>
             </div>

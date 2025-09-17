@@ -1,5 +1,8 @@
-import { Mail, Phone, Linkedin, Github, Heart, ArrowUp } from "lucide-react";
+import React from "react";
+import { Heart, ArrowUp, Mail, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { personalInfo } from "@/data/personalInfo";
+import { socialLinks } from "@/data/contact";
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -14,40 +17,24 @@ const Footer = () => {
         <div className="grid md:grid-cols-3 gap-8 mb-8">
           {/* Brand Section */}
           <div className="space-y-4">
-            <h3 className="text-2xl font-bold">Pranav Kawale</h3>
+            <h3 className="text-2xl font-bold">{personalInfo.name}</h3>
             <p className="text-white/80 leading-relaxed">
-              Aspiring Software Engineer passionate about creating innovative solutions 
+              {personalInfo.title} passionate about creating innovative solutions 
               and contributing to meaningful projects.
             </p>
             <div className="flex space-x-4">
-              <a 
-                href="mailto:Pranavlkawale1@gmail.com"
-                className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-300"
-              >
-                <Mail className="w-5 h-5" />
-              </a>
-              <a 
-                href="https://www.linkedin.com/in/pranav-kawale-aa4a622b8"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-300"
-              >
-                <Linkedin className="w-5 h-5" />
-              </a>
-              <a 
-                href="https://github.com/Pranavkawale05"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-300"
-              >
-                <Github className="w-5 h-5" />
-              </a>
-              <a 
-                href="tel:7022018900"
-                className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-300"
-              >
-                <Phone className="w-5 h-5" />
-              </a>
+              {socialLinks.map((social) => (
+                <a 
+                  key={social.id}
+                  href={social.href}
+                  target={social.href.startsWith('http') ? '_blank' : undefined}
+                  rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-300"
+                  aria-label={social.label}
+                >
+                  <social.icon className="w-5 h-5" />
+                </a>
+              ))}
             </div>
           </div>
 
@@ -97,7 +84,7 @@ const Footer = () => {
         <div className="border-t border-white/20 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="flex items-center space-x-2 text-white/80 text-sm">
-              <span>© {currentYear} Pranav Kawale. Made with</span>
+              <span>© {currentYear} {personalInfo.name}. Made with</span>
               <Heart className="w-4 h-4 text-red-400 fill-current" />
               <span>and passion for technology.</span>
             </div>
