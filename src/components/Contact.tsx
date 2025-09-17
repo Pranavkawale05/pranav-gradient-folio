@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { contactInfo } from "@/data/contact";
 import ContactInfoCard from "@/components/ui/ContactInfoCard";
+import emailjs from "@emailjs/browser";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -17,23 +18,40 @@ const Contact = () => {
   });
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Create mailto link with form data
-    const subject = `Contact from ${formData.name}`;
-    const body = `Hi Pranav,\n\n${formData.message}\n\nBest regards,\n${formData.name}\n${formData.email}`;
-    const mailtoLink = `mailto:Pranavlkawale1@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    
-    window.location.href = mailtoLink;
-    
-    toast({
-      title: "Opening email client...",
-      description: "Your default email client should open with the message pre-filled.",
-    });
+  const [isSending, setIsSending] = useState(false);
 
-    // Reset form
-    setFormData({ name: '', email: '', message: '' });
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isSending) return;
+
+    setIsSending(true);
+    try {
+      await emailjs.send(
+        "service_ly7prbw",
+        "template_fencc3p",
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+        },
+        "YkGg5g6RZCN3KlStq"
+      );
+
+      toast({
+        title: "Message sent!",
+        description: "Thanks for reaching out. I'll get back to you shortly.",
+      });
+
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      console.error("EmailJS send error", error);
+      toast({
+        title: "Failed to send",
+        description: "Please try again in a moment or email me directly.",
+      });
+    } finally {
+      setIsSending(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -150,9 +168,10 @@ const Contact = () => {
                   <Button 
                     type="submit" 
                     className="w-full bg-gradient-accent hover:opacity-90 text-white font-semibold py-6 text-lg"
+                    disabled={isSending}
                   >
                     <Send className="w-5 h-5 mr-2" />
-                    Send Message
+                    {isSending ? "Sending..." : "Send Message"}
                   </Button>
                 </form>
               </CardContent>
